@@ -1,13 +1,13 @@
-# Airflow 2.10.3 → 3.1.7 DAG Migration Reference
+# Airflow 2.10.3 → 3.1.7 DAG Migration
 
 For comparison, the following branches were used
 
-* branch: `2.10.3rc2`
-  * https://github.com/apache/airflow/tree/2.10.3rc2
+* branch: `2.10.3.3rc2`
+  * https://github.com/apache/airflow/tree/2.10.3.3rc2
   * last commit SHA: `c99887ec11ce3e1a43f2794fcf36d27555140f00`
 
-* branch: `3.1.7rc2`
-  * https://github.com/apache/airflow/tree/3.1.7rc2
+* branch: `3.1.7.7rc2`
+  * https://github.com/apache/airflow/tree/3.1.7.7rc2
   * last commit SHA: `83ff6ecec9dd71d8b8631248bc0725afc472acd7`
 
 ## Quick-scan error index
@@ -41,7 +41,7 @@ If you see a specific error or warning, find it here first.
 
 ## 1. DAG parameters
 
-| 2.10 | 3.1 | Notes |
+| 2.10.3 | 3.1.7 | Notes |
 |---|---|---|
 | `schedule_interval="@daily"` | `schedule="@daily"` | Accepts cron, timedelta, timetable, Asset, or None |
 | `schedule_interval=timedelta(hours=1)` | `schedule=timedelta(hours=1)` | |
@@ -56,7 +56,7 @@ If you see a specific error or warning, find it here first.
 
 ## 2. Operator / task parameters
 
-| 2.10 | 3.1 | Notes |
+| 2.10.3 | 3.1.7 | Notes |
 |---|---|---|
 | `task_concurrency=N` | `max_active_tis_per_dag=N` | (Already renamed in 2.x; errors in 3.x) |
 | `sla=timedelta(...)` | *(removed)* | Use DAG-level `deadline=` instead |
@@ -69,7 +69,7 @@ If you see a specific error or warning, find it here first.
 
 All old import paths work as deprecation shims in 3.x (until noted). Migrate proactively.
 
-| 2.10 import | 3.1 canonical import |
+| 2.10.3 import | 3.1.7 canonical import |
 |---|---|
 | `from airflow import DAG` | `from airflow.sdk import DAG` |
 | `from airflow.models.dag import DAG` | `from airflow.sdk import DAG` |
@@ -103,7 +103,7 @@ All old import paths work as deprecation shims in 3.x (until noted). Migrate pro
 
 ## 4. Context variables (templates and **context kwargs)
 
-| 2.10 | 3.1 | Notes |
+| 2.10.3 | 3.1.7 | Notes |
 |---|---|---|
 | `{{ execution_date }}` | `{{ logical_date }}` | Same moment in time |
 | `context["execution_date"]` | `context["logical_date"]` | |
@@ -119,7 +119,7 @@ All old import paths work as deprecation shims in 3.x (until noted). Migrate pro
 
 ## 5. Dataset → Asset rename
 
-| 2.10 | 3.1 | Shim until |
+| 2.10.3 | 3.1.7 | Shim until |
 |---|---|---|
 | `Dataset(uri=...)` | `Asset(uri=...)` | 3.2 |
 | `DatasetAll(...)` | `AssetAll(...)` | 3.2 |
@@ -135,7 +135,7 @@ New Asset fields (not in Dataset):
 
 ## 6. XCom
 
-| 2.10 | 3.1 |
+| 2.10.3 | 3.1.7 |
 |---|---|
 | JSON and pickle both supported | JSON only (pickle removed, migration `0049`) |
 | `BaseXCom` class name | `XComModel` class name |
@@ -159,7 +159,7 @@ New Asset fields (not in Dataset):
 | `external_trigger: bool` on DagRun | `triggered_by` enum field |
 | XCom pickle column | JSON-only XCom |
 
-## 8. New in 3.1 only (not in 2.10)
+## 8. New in 3.1.7 only (not in 2.10.3)
 
 | Feature | Import / Usage |
 |---|---|
